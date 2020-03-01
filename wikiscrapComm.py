@@ -14,9 +14,10 @@ url = "https://en.wikipedia.org/wiki/Mia_Khalifa"
 queue = [] 	#Ουρά για το crawiling
 queuetp = [] #Ουρα για την αποθηκευση
 links = set() #Set για να μην εχω διπλοτυπα links
-bar = Bar("Processing", max=200,suffix='%(percent)d%% [%(index)d / %(max)d]')
-f = io.open("data.txt","w+", encoding="utf-8") #Ανοιγμα αρχείου το io ειναι για backward compability με python 2
-for i in range (200):
+loops = 200
+bar = Bar("Processing", max=loops,suffix='%(percent)d%% [%(index)d / %(max)d]')
+
+for i in range (loops):
 	bar.next()
 	r  = requests.get(url)
 	soup = BeautifulSoup(r.content,'html.parser')
@@ -37,6 +38,8 @@ bar.finish() #Τελος μπαρας
 
 for q in queue:  #Προσθηκη των υπολοιπων στο νεο Queue
 	queuetp.append(q)
+	
+f = io.open("data.txt","w+", encoding="utf-8") #Ανοιγμα αρχείου το io ειναι για backward compability με python 2
 	
 for qtp in queuetp: #Αποθηκευση του νεου queue στο αρχειο με προθεμα
 	f.write("https://en.wikipedia.org" + qtp + "\n")
